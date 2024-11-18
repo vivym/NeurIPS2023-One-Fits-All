@@ -74,6 +74,7 @@ class Exp_Short_Term_Forecast(Exp_Basic):
             self.model.train()
             epoch_time = time.time()
             for i, (batch_x, batch_y, batch_x_mark, batch_y_mark) in enumerate(train_loader):
+                break
                 iter_count += 1
                 model_optim.zero_grad()
                 batch_x = batch_x.float().to(self.device)
@@ -150,6 +151,7 @@ class Exp_Short_Term_Forecast(Exp_Basic):
             outputs = outputs[:, -self.args.pred_len:, f_dim:]
             pred = outputs
             true = torch.from_numpy(np.array(y))
+            print("true", true.shape)
             batch_y_mark = torch.ones(true.shape)
 
             loss = criterion(x.detach().cpu()[:, :, 0], self.args.frequency_map, pred[:, :, 0], true, batch_y_mark)
